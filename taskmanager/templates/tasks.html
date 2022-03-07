@@ -3,4 +3,44 @@
 
 <h3 class="light-blue-text text-darken-4 center-align">Tasks</h3>
 
+<div class="row">
+    <div class="col s12 center-align">
+        <a href="{{ url_for('add_task') }}" class="btn-large light-blue darken-2">
+            Add Task <i class="fas fa-plus-square right"></i>
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col l9 center-align">
+        <ul class="collapsible">
+            {% for task in tasks|sort(attribute="due_date") %}
+            <!-- <div class="collection-item  inline"><i class="fa-solid fa-arrow-down right-align"></i></div> -->
+            <li>
+                <div class="collapsible-header white-text light-blue darken-4 left-align">
+                    <i class="material-icons right-align">arrow_downward</i>
+                    {% if task.is_urgent == True %}
+                        <i class="fas fa-exclamation-circle light-blue-text text-lighten-2"></i>
+                    {% endif %}
+                    
+                    <strong>{{ task.task_name }}</strong> :  {{ task.due_date.strftime("%d, %B, %Y") }}</div>
+                <div class="collapsible-body left-align">
+                    <ul>
+                        <li><strong>{{ task.category  }}</strong></li>
+                        <p>{{ task.task_description }}</p>
+                        <p>
+                            <a href="{{ url_for('edit_task', task_id=task.id) }}" class="btn green accent-4">Edit</a>
+                        </p>
+                        <p>
+                            <a href="{{ url_for('delete_task', task_id=task.id) }}" class="btn red accent-4">Delete</a>
+                        </p>
+                    </ul>
+                </div>
+              </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+</div>
+
 {% endblock %}
